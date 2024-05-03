@@ -21,7 +21,6 @@ function createCube() {
   const material = createMaterial();
 
   const cube = new Mesh(geometry, material);
-  cube.rotation.set(0.5, -0.5, 0);
 
   const radiansPerSecond = MathUtils.degToRad(30);
 
