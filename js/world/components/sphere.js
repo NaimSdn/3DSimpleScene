@@ -15,7 +15,7 @@ function createMaterial() {
 }
 
 function createSphere() {
-  const geometry = new SphereGeometry(5,32,16);
+  const geometry = new SphereGeometry(5, 32, 16);
   const material = createMaterial();
   const sphere = new Mesh(geometry, material);
 

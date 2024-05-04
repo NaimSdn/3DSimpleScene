@@ -1,5 +1,11 @@
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
 
+let moveSpeed;
+
+const controlValues = {
+  moveSpeed: 0.2,
+};
+
 function createControls(camera, canvas) {
   const controls = new PointerLockControls(camera, canvas);
 
@@ -9,7 +15,7 @@ function createControls(camera, canvas) {
   let moveRight = false;
   let moveUp = false;
   let moveDown = false;
-  let moveSpeed = 0.2;
+  moveSpeed = controlValues.moveSpeed;
 
   addEventListener("keydown", (event) => {
     if (!controls.isLocked) {
@@ -89,4 +95,8 @@ function createControls(camera, canvas) {
   return controls;
 }
 
-export { createControls };
+function updateMoveSpeed(newMoveSpeed) {
+  moveSpeed = newMoveSpeed;
+}
+
+export { createControls, updateMoveSpeed, controlValues };

@@ -40,7 +40,14 @@ class World {
     let { ambientLight, mainLight, mainLightHelper } = createLights();
     loop.updatables.push(controls);
 
-    const gui = createGui(mainLight, controls, cube, sphere, ground);
+    const gui = createGui(
+      ambientLight,
+      mainLight,
+      controls,
+      cube,
+      sphere,
+      ground
+    );
 
     scene.add(ambientLight, mainLight, mainLightHelper, ground, cube, sphere);
 

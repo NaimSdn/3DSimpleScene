@@ -1,11 +1,12 @@
 import { GUI } from "dat.gui";
-import { BoxGeometry, SphereGeometry } from "three";
+import { BoxGeometry, SphereGeometry, PlaneGeometry } from "three";
+import { updateMoveSpeed, controlValues } from "./controls";
 
 const gui = new GUI({ autoPlace: false });
 document.getElementById("gui").appendChild(gui.domElement);
 
-function createGui(mainLight, controls, cube, sphere, ground) {
-  createMainLightGui(mainLight);
+function createGui(ambientLight, mainLight, controls, cube, sphere, ground) {
+  createLightGui(ambientLight, mainLight);
   createControlsGui(controls);
   createCubeGui(cube);
   createSphereGui(sphere);
@@ -14,20 +15,47 @@ function createGui(mainLight, controls, cube, sphere, ground) {
   return gui;
 }
 
-function createMainLightGui(mainLight) {
-  const mainLightFolder = gui.addFolder("Main light");
+function createLightGui(ambientLight, mainLight) {
+  const lightFolder = gui.addFolder("Lights");
+
+  const mainLightFolder = lightFolder.addFolder("Main Light");
+
+  const propertyMainLightFolder = mainLightFolder.addFolder("Property");
+  propertyMainLightFolder
+    .add(mainLight, "intensity", 0, 5, 0.1)
+    .name("Intensity");
+
+  const positionFolder = mainLightFolder.addFolder("Position");
+  positionFolder
+    .add(mainLight.position, "x", -100, 100, 0.1)
+    .name("Position X");
+  positionFolder.add(mainLight.position, "y", -50, 50, 0.1).name("Position Y");
+  positionFolder
+    .add(mainLight.position, "z", -100, 100, 0.1)
+    .name("Position Z");
+
+  const ambientLightFolder = lightFolder.addFolder("Ambient Light");
+
+  const propertyAmbientLightFolder = ambientLightFolder.addFolder("Property");
+  propertyAmbientLightFolder
+    .add(ambientLight, "intensity", 0, 2, 0.05)
+    .name("Intensity");
 }
 
 function createControlsGui(controls) {
   const controlsFolder = gui.addFolder("Controls");
+
+  const propertyFolder = controlsFolder.addFolder("Property");
+  propertyFolder
+    .add(controlValues, "moveSpeed", 0, 2, 0.01)
+    .name("Move Speed")
+    .onChange(updateMoveSpeed);
 }
 
 function createCubeGui(cube) {
   const cubeFolder = gui.addFolder("Cube");
-  cubeFolder.closed = false;
 
   const propertyFolder = cubeFolder.addFolder("Property");
-  propertyFolder.closed = false;
   propertyFolder.add(cube.material, "wireframe").name("Wireframe");
   propertyFolder
     .add(cube.geometry.parameters, "width", 0, 20, 0.1)
@@ -184,6 +212,61 @@ function createSphereGui(sphere) {
 
 function createGroundGui(ground) {
   const groundFolder = gui.addFolder("Ground");
+
+  const propertyFolder = groundFolder.addFolder("Property");
+  propertyFolder.add(ground.material, "wireframe").name("Wireframe");
+
+  propertyFolder
+    .add(ground.geometry.parameters, "width", 0, 200, 0.1)
+    .name("Width")
+    .onChange(function (value) {
+      ground.geometry.parameters.width = value;
+      ground.geometry = new PlaneGeometry(
+        value,
+        ground.geometry.parameters.height,
+        ground.geometry.parameters.widthSegments,
+        ground.geometry.parameters.heightSegments
+      );
+    });
+
+  propertyFolder
+    .add(ground.geometry.parameters, "height", 0, 200, 0.1)
+    .name("Height")
+    .onChange(function (value) {
+      ground.geometry.parameters.height = value;
+      ground.geometry = new PlaneGeometry(
+        ground.geometry.parameters.width,
+        value,
+        ground.geometry.parameters.widthSegments,
+        ground.geometry.parameters.heightSegments
+      );
+    });
+
+  propertyFolder
+    .add(ground.geometry.parameters, "widthSegments", 0, 20, 0.1)
+    .name("Width Segments")
+    .onChange(function (value) {
+      ground.geometry.parameters.widthSegments = value;
+      ground.geometry = new PlaneGeometry(
+        ground.geometry.parameters.width,
+        ground.geometry.parameters.height,
+        value,
+        ground.geometry.parameters.heightSegments
+      );
+    });
+
+  propertyFolder
+    .add(ground.geometry.parameters, "heightSegments", 0, 20, 0.1)
+    .name("Height Segments")
+    .onChange(function (value) {
+      ground.geometry.parameters.heightSegments = value;
+      ground.geometry = new PlaneGeometry(
+        ground.geometry.parameters.width,
+        ground.geometry.parameters.height,
+        ground.geometry.parameters.widthSegments,
+        value
+      );
+    });
 }
 
 export { createGui };
