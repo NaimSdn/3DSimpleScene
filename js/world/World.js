@@ -7,6 +7,8 @@ import { createControls } from "./systems/controls.js";
 import { createRenderer } from "./systems/renderer.js";
 import { Resizer } from "./systems/Resizer.js";
 import { Loop } from "./systems/Loop.js";
+import { createGround } from "./components/ground.js";
+import { createSphere } from "./components/sphere.js"
 
 let camera;
 let scene;
@@ -24,12 +26,14 @@ class World {
     loop = new Loop(camera, scene, renderer);
     container.append(renderer.domElement);
 
+    const ground = createGround();
     const cube = createCube();
-    const { ambientLight, mainLight } = createLights();
+    const sphere = createSphere();
 
+    const { ambientLight, mainLight, mainLightHelper } = createLights();
     loop.updatables.push(controls);
 
-    scene.add(ambientLight, mainLight, cube);
+    scene.add(ambientLight, mainLight, mainLightHelper, ground, cube, sphere);
 
     const resizer = new Resizer(container, camera, renderer);
   }
