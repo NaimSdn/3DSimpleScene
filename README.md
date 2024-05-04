@@ -12,7 +12,7 @@
 
 ---
 
-> To move : Click on the screen and use `Z`, `S`, `Q`, `D`, `SpaceBar` and `Shift`
+> Use any key to lock the cursor and `Z`, `S`, `Q`, `D`, `SpaceBar` and `Shift` to move around. To leave press `Escap`.
 
 ---
 

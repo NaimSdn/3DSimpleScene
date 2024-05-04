@@ -11,11 +11,10 @@ function createControls(camera, canvas) {
   let moveDown = false;
   let moveSpeed = 0.2;
 
-  addEventListener("click", function () {
-    controls.lock();
-  });
-
   addEventListener("keydown", (event) => {
+    if (!controls.isLocked) {
+      controls.lock();
+    }
     switch (event.code) {
       case "KeyW":
         moveForward = true;

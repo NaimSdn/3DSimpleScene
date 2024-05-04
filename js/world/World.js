@@ -8,12 +8,19 @@ import { createRenderer } from "./systems/renderer.js";
 import { Resizer } from "./systems/Resizer.js";
 import { Loop } from "./systems/Loop.js";
 import { createGround } from "./components/ground.js";
-import { createSphere } from "./components/sphere.js"
+import { createSphere } from "./components/sphere.js";
+import { createGui } from "./systems/gui.js";
 
 let camera;
 let scene;
 let renderer;
 let loop;
+
+let controls;
+
+let ground;
+let cube;
+let sphere;
 
 class World {
   constructor(container) {
@@ -21,17 +28,19 @@ class World {
     scene = createScene();
     renderer = createRenderer();
 
-    const controls = createControls(camera, renderer.domElement);
+    controls = createControls(camera, renderer.domElement);
 
     loop = new Loop(camera, scene, renderer);
     container.append(renderer.domElement);
 
-    const ground = createGround();
-    const cube = createCube();
-    const sphere = createSphere();
+    ground = createGround();
+    cube = createCube();
+    sphere = createSphere();
 
-    const { ambientLight, mainLight, mainLightHelper } = createLights();
+    let { ambientLight, mainLight, mainLightHelper } = createLights();
     loop.updatables.push(controls);
+
+    const gui = createGui(mainLight, controls, cube, sphere, ground);
 
     scene.add(ambientLight, mainLight, mainLightHelper, ground, cube, sphere);
 
