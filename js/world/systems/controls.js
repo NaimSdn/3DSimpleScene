@@ -17,10 +17,17 @@ function createControls(camera, canvas) {
   let moveDown = false;
   moveSpeed = controlValues.moveSpeed;
 
+  document.getElementById("gui").addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+
+  addEventListener("click", (event) => {
+   if(!controls.isLocked){
+    controls.lock();
+   }
+  });
+
   addEventListener("keydown", (event) => {
-    if (!controls.isLocked) {
-      controls.lock();
-    }
     switch (event.code) {
       case "KeyW":
         moveForward = true;
