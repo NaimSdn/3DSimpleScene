@@ -20,6 +20,7 @@ function createGround() {
   const ground = new Mesh(geometry, material);
 
   ground.rotation.x += Math.PI / 2;
+  ground.receiveShadow = true;
 
   return ground;
 }

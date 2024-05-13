@@ -22,6 +22,9 @@ function createCube() {
   cube.position.x -= 12.5;
   cube.position.y += 5;
 
+  cube.castShadow = true;
+  cube.receiveShadow = false;
+
   const radiansPerSecond = MathUtils.degToRad(30);
 
   cube.tick = (delta) => {

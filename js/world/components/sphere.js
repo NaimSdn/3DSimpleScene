@@ -22,6 +22,9 @@ function createSphere() {
   sphere.position.x += 12.5;
   sphere.position.y += 5.5;
 
+  sphere.castShadow = true;
+  sphere.receiveShadow = false;
+
   const radiansPerSecond = MathUtils.degToRad(30);
 
   sphere.tick = (delta) => {
